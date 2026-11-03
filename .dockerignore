@@ -1,0 +1,44 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.yaml
+.dockerignore
+
+# Environment (loaded via --env-file, not COPY)
+# .env is NOT ignored because we use --env-file at runtime
+
+# Docs & CI
+README.md
+.github/
+LICENSE
+
+# Data & temp
+qdrant_db/
+*.log
+tmp*/
+proj1/
+Project_V1.0/
+
+# OS
+Thumbs.db
+.DS_Store
+

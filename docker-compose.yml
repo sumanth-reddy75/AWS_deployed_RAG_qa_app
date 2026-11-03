@@ -1,0 +1,31 @@
+# ==================================================
+# RAG Q&A System - Docker Compose
+# ==================================================
+# Usage:
+#   docker compose up -d --build  # Build and Start
+#   docker compose logs -f        # View logs
+#   docker compose down           # Stop
+#
+# Prerequisites:
+#   - OPENAI_API_KEY in .env
+#   - QDRANT_URL and QDRANT_API_KEY in .env
+# ==================================================
+
+services:
+  # ---- RAG Application ----
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
