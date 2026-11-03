@@ -77,20 +77,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Check if App Runner service exists
+      - name: Resolve App Runner service ARN
         id: check-service
         run: |
-          SERVICE_ARN=$(aws apprunner list-services --region ${{ env.AWS_REGION }} \
-            --query "ServiceSummaryList[?ServiceName=='${{ env.APP_RUNNER_SERVICE }}'].ServiceArn" \
-            --output text)
+          SERVICE_ARN="${{ secrets.APP_RUNNER_SERVICE_ARN }}"
 
           if [ -z "$SERVICE_ARN" ]; then
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Service does not exist - will create new service"
+            echo "No APP_RUNNER_SERVICE_ARN secret found - will create new service"
           else
             echo "exists=true" >> $GITHUB_OUTPUT
             echo "service_arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
-            echo "Service exists: $SERVICE_ARN"
+            echo "Using existing service ARN from secret"
           fi
 
       - name: Create App Runner service (if not exists)
